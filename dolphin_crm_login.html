@@ -3,23 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Dolphin CRM</title>
+    <title>Dolphin CRM - Login</title>
     <link rel="stylesheet" href="dolphin_crm_login.css">
+    <script defer src="login.js"></script> <!-- Link to your JavaScript file -->
 </head>
 <body>
     <div class="login-container">
-        <h2>Welcome to Dolphin CRM Login</h2>
-        <form action="login.php" method="post">
+        <h1>Welcome to Dolphin CRM Login</h1>
+        <form id="loginForm">
             <label for="email">Email Address:</label>
-            <input type="email" id="email" name="email" required>
+            <input type="email" id="email" name="email" placeholder="Enter Your Email Address" required>
             
             <label for="password">Password:</label>
             <input type="password" id="password" name="password" placeholder="Enter Your Password" required>
             
             <button type="submit">Login</button>
         </form>
+        
+        <div id="error-message" class="error-message"></div>
     </div>
-    
 </body>
 <footer>
     &copy; 2024 Dolphin CRM

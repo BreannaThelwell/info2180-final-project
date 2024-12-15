@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="dashboard.css">
+</head>
+<body>
+    <div class="sidebar">
+        <h2>Dolphin CRM</h2>
+        <a href="dashboard.html" class="active">Home</a>
+        <a href="add_contact.html">New Contact</a>
+        <a href="user_list.html">Users</a>
+        <a href="logout.php">Logout</a>
+    </div>
+
+    <div class="main">
+        <div class="header">
+            <h1>Dashboard</h1>
+            <a href="add_contact.html" class="btn">+ Add Contact</a>
+        </div>
+
+        <div class="filters">
+            <span>Filter By:</span>
+            <a href="#" class="filter-link active" id="filter-all">All</a>
+            <a href="#" class="filter-link" id="filter-sales-leads">Sales Leads</a>
+            <a href="#" class="filter-link" id="filter-support">Support</a>
+            <a href="#" class="filter-link" id="filter-assigned">Assigned to me</a>
+        </div>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Company</th>
+                    <th>Type</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody id="contact-list">
+                <!-- Contacts will be dynamically loaded here -->
+            </tbody>
+        </table>
+    </div>
+
+    <script src="dashboard.js"></script>
+</body>
+</html>

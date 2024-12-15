@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Contact</title>
+    <link rel="stylesheet" href="add_contact.css">
+    <script defer src="add_contact.js"></script>
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <h2>Dolphin CRM</h2>
+        <a href="dashboard.html"><i class="icon-home"></i> Home</a>
+        <a href="add_contact.html" class="active"><i class="icon-contact"></i> New Contact</a>
+        <a href="user_list.html"><i class="icon-users"></i> Users</a>
+        <a href="logout.php"><i class="icon-logout"></i> Logout</a>
+    </div>
+
+    <!-- Main content -->
+    <div class="main">
+        <div class="header">
+            <h1>New Contact</h1>
+        </div>
+
+        <!-- Contact form -->
+        <form id="add-contact-form">
+            <div class="row">
+                <div class="form-group">
+                    <label for="title">Title</label>
+                    <select name="title" id="title" required>
+                        <option value="Mr.">Mr.</option>
+                        <option value="Ms.">Ms.</option>
+                        <option value="Mrs.">Mrs.</option>
+                        <option value="Dr.">Dr.</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="firstname">First Name</label>
+                    <input type="text" name="firstname" id="firstname" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="lastname">Last Name</label>
+                    <input type="text" name="lastname" id="lastname" required>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" name="email" id="email" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="telephone">Telephone</label>
+                    <input type="text" name="telephone" id="telephone">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group">
+                    <label for="company">Company</label>
+                    <input type="text" name="company" id="company" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="type">Type</label>
+                    <select name="type" id="type" required>
+                        <option value="Sales Lead">Sales Lead</option>
+                        <option value="Support">Support</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="assigned_to">Assigned To</label>
+                <select name="assigned_to" id="assigned_to" required>
+                    <!-- Dynamically populated -->
+                </select>
+            </div>
+
+            <button type="submit" class="btn">Save</button>
+        </form>
+        <div id="response-message"></div>
+    </div>
+</body>
+</html>

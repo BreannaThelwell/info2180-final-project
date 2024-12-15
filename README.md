@@ -1,3 +1,4 @@
-# info2180-final-project
+# info2180-finalproject
 
-This is the final group project for Gabe Riley, Antawn Edwards, Sheri-lee Mills, Breanna Thelwell, and Makonnen Solomon.
+This the final project for Gabe Riley, Antawn Edwards, Breanna Thelwell,
+Makonnen Solomon, and Sheri-lee Mills.

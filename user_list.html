@@ -7,61 +7,65 @@
     <link rel="stylesheet" href="user_list.css">
 </head>
 <body>
+    <!-- Sidebar -->
     <div class="sidebar">
-        <a href="dashboard.html">Home</a>
-        <a href="new_contact.html">New Contact</a>
-        <a href="user_list.html">Users</a>
-        <a href="logout.php">Logout</a>
+        <h2>Dolphin CRM</h2>
+        <a href="dashboard.html"><i class="icon-home"></i> Home</a>
+        <a href="add_contact.html"><i class="icon-contact"></i> New Contact</a>
+        <a href="user_list.html" class="active"><i class="icon-users"></i> Users</a>
+        <a href="logout.php"><i class="icon-logout"></i> Logout</a>
     </div>
+
+    <!-- Main content -->
     <div class="main-content">
-        <h2>User List</h2>
-        <div class="filter-options">
-            <button onclick="filterUsers('all')">All</button>
-            <button onclick="filterUsers('sales')">Sales Leads</button>
-            <button onclick="filterUsers('support')">Support</button>
-            <button onclick="location.href='new_contact.html'">Add New Contact</button>
+        <div class="header">
+            <h1>Users</h1>
+            <a href="new_user.html" class="btn">+ Add User</a>
         </div>
-        <table>
+
+        <!-- User list table -->
+        <table class="table">
             <thead>
                 <tr>
                     <th>Name</th>
                     <th>Email</th>
-                    <th>Company</th>
-                    <th>Type</th>
-                    <th>Actions</th>
+                    <th>Role</th>
+                    <th>Created</th>
                 </tr>
             </thead>
             <tbody>
-                <!-- Rows dynamically populated -->
                 <tr>
-                    <td>Mak Sol</td>
-                    <td>makosol@example.com</td>
-                    <td>Mak Enterprises</td>
-                    <td><span class="type sales">Support</span></td>
-                    <td><button onclick="viewDetails(1)">View Details</button></td>
+                    <td>Ms. Jan Levinson</td>
+                    <td>jan.levinson@paper.co</td>
+                    <td>Member</td>
+                    <td>2022-11-13 11:00</td>
                 </tr>
                 <tr>
-                    <td>Cher Jack</td>
-                    <td>Jackcher@example.com</td>
-                    <td>Jack Reach Ltd</td>
-                    <td><span class="type support">Sales Lead</span></td>
-                    <td><button onclick="viewDetails(2)">View Details</button></td>
+                    <td>Mr. David Wallace</td>
+                    <td>david.wallace@paper.co</td>
+                    <td>Admin</td>
+                    <td>2022-11-10 19:00</td>
                 </tr>
                 <tr>
-                    <td>John Brown</td>
-                    <td>johnbrown@example.com</td>
-                    <td>Brown Enterprises</td>
-                    <td><span class="type other">Other</span></td>
-                    <td><button onclick="viewDetails(3)">View Details</button></td>
+                    <td>Mr. Andy Bernard</td>
+                    <td>andy.bernard@paper.co</td>
+                    <td>Member</td>
+                    <td>2022-11-10 11:00</td>
+                </tr>
+                <tr>
+                    <td>Mr. Darryl Philbin</td>
+                    <td>darryl.philbin@paper.co</td>
+                    <td>Member</td>
+                    <td>2022-11-09 23:00</td>
+                </tr>
+                <tr>
+                    <td>Ms. Erin Hannon</td>
+                    <td>erin.hannon@paper.co</td>
+                    <td>Member</td>
+                    <td>2022-11-08 13:30</td>
                 </tr>
             </tbody>
         </table>
     </div>
-    <script>
-        function viewDetails(userId) {
-            // Redirect to the contact details page (replace with your server logic)
-            location.href = `view_contact.html?user_id=${userId}`;
-        }
-    </script>
 </body>
 </html>

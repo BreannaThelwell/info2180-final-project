@@ -1,102 +1,112 @@
+
 body {
     font-family: 'Arial', sans-serif;
     margin: 0;
     display: flex;
-    background-color: #6c757d;
+    background-color: #f8f9fa;
 }
 
+/* Sidebar styling */
 .sidebar {
-    width: 200px;
-    background-color: #007bff; /* Blue sidebar */
+    width: 240px;
+    background-color: #2C3E50;
     color: white;
     height: 100vh;
-    padding: 15px;
+    padding: 20px;
+    position: fixed;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.sidebar h2 {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 30px;
 }
 
 .sidebar a {
     color: white;
     text-decoration: none;
     display: block;
+    padding: 10px 15px;
     margin-bottom: 10px;
-    padding: 10px;
+    font-size: 18px;
     border-radius: 5px;
+    transition: background 0.3s ease-in-out;
 }
 
+.sidebar a.active,
 .sidebar a:hover {
-    background-color: #0056b3;
+    background-color: #34495E;
 }
 
+/* Main content area */
 .main-content {
     flex: 1;
-    padding: 20px;
+    margin-left: 260px;
+    padding: 30px;
+    background-color: #ffffff;
 }
 
-.filter-options {
+/* Header */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     margin-bottom: 20px;
 }
 
-.filter-options button {
-    margin-right: 10px;
-    padding: 10px 15px;
-    background-color: #007bff;
+.header h1 {
+    font-size: 24px;
+    font-weight: bold;
+    color: #2C3E50;
+    margin: 0;
+}
+
+.btn {
+    padding: 10px 20px;
+    background: #6C5CE7;
     color: white;
-    border: none;
+    text-decoration: none;
     border-radius: 5px;
-    cursor: pointer;
+    font-size: 16px;
+    transition: background 0.3s;
 }
 
-.filter-options button:hover {
-    background-color: #0056b3;
+.btn:hover {
+    background: #4B4CDA;
 }
 
-table {
+/* Table styling */
+.table {
     width: 100%;
     border-collapse: collapse;
-    margin: 20px 0;
+    margin-top: 20px;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-table th, table td {
-    padding: 10px;
-    border: 1px solid #ccc;
+.table th, .table td {
+    padding: 12px 15px;
+    border: 1px solid #ddd;
     text-align: left;
 }
 
-table th {
-    background-color #6c757d: 
-}
-
-button {
-    background-color: #28a745;
-    color: white;
-    border: none;
-    padding: 5px 10px;
-    font-size: 14px;
-    cursor: pointer;
-    border-radius: 5px;
-}
-
-button:hover {
-    background-color: #218838;
-}
-
-/* Type highlighting */
-.type {
-    display: inline-block;
-    padding: 5px 10px;
-    border-radius: 5px;
-    color: white;
+.table th {
+    background-color: #f4f4f6;
     font-weight: bold;
-    text-align: center;
+    color: #2C3E50;
 }
 
-.type.sales {
-    background-color: #28a745; /* Green for Sales */
+.table tr {
+    background-color: white;
+    transition: background-color 0.3s;
 }
 
-.type.support {
-    background-color: #007bff; /* Blue for Support */
+.table tr:hover {
+    background-color: #f9f9f9;
 }
 
-.type.other {
-    background-color: #6c757d; /* Gray for Other */
+.table td {
+    color: #333;
 }

@@ -1,0 +1,153 @@
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    background: #f4f4f6;
+}
+
+.sidebar {
+    width: 240px;
+    background-color: #2C3E50;
+    color: white;
+    height: 100vh;
+    padding: 20px;
+    position: fixed;
+}
+
+.sidebar h2 {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 30px;
+}
+
+.sidebar a {
+    color: white;
+    text-decoration: none;
+    display: block;
+    padding: 10px 15px;
+    margin-bottom: 10px;
+    font-size: 18px;
+    border-radius: 5px;
+    transition: background 0.3s;
+}
+
+.sidebar a.active,
+.sidebar a:hover {
+    background-color: #34495E;
+}
+
+.main {
+    margin-left: 260px;
+    padding: 30px;
+    background: white;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.header h1 {
+    font-size: 24px;
+    font-weight: bold;
+    color: #2C3E50;
+    margin: 0;
+}
+
+.btn {
+    padding: 10px 20px;
+    background: #6C5CE7;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 16px;
+    transition: background 0.3s;
+}
+
+.btn:hover {
+    background: #4B4CDA;
+}
+
+.filters {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.filters span {
+    font-weight: bold;
+    color: #2C3E50;
+}
+
+.filters a {
+    text-decoration: none;
+    color: #34495E;
+    padding: 8px 12px;
+    border-radius: 5px;
+    transition: background 0.3s, color 0.3s;
+}
+
+.filters a.active {
+    background: #6C5CE7;
+    color: white;
+}
+
+.filters a:hover {
+    background: #4B4CDA;
+    color: white;
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.table th, .table td {
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+.table th {
+    background: #f4f4f6;
+    font-weight: bold;
+    color: #2C3E50;
+}
+
+.table tr:hover {
+    background: #f9f9f9;
+}
+
+.badge {
+    padding: 5px 10px;
+    border-radius: 5px;
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.badge.sales-lead {
+    background: #F1C40F;
+}
+
+.badge.support {
+    background: #28A745;
+}
+
+.action-link {
+    color: #6C5CE7;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.action-link:hover {
+    text-decoration: underline;
+}

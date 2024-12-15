@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Contact</title>
+    <link rel="stylesheet" href="view_contact.css">
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <h2>Dolphin CRM</h2>
+        <a href="dashboard.html" class="active"><i class="fas fa-home"></i> Home</a>
+        <a href="add_contact.html"><i class="fas fa-user-plus"></i> New Contact</a>
+        <a href="user_list.html"><i class="fas fa-users"></i> Users</a>
+        <a href="logout.php"><i class="fas fa-sign-out-alt"></i> Logout</a>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main">
+        <!-- Contact Header -->
+        <div class="contact-header">
+            <div class="contact-header-left">
+                <h1 id="contact-name"></h1>
+                <p id="created-info"></p>
+                <p id="updated-info"></p>
+            </div>
+            <div class="contact-header-right">
+                <button class="btn green" id="assign-to-me-btn">Assign to me</button>
+                <button class="btn yellow" id="switch-type-btn">Switch Type</button>
+            </div>
+        </div>
+
+        <!-- Contact Details -->
+        <div class="contact-details">
+            <div class="details-row">
+                <p><strong>Email:</strong> <span id="email"></span></p>
+                <p><strong>Telephone:</strong> <span id="telephone"></span></p>
+            </div>
+            <div class="details-row">
+                <p><strong>Company:</strong> <span id="company"></span></p>
+                <p><strong>Assigned To:</strong> <span id="assigned-to"></span></p>
+            </div>
+        </div>
+
+        <!-- Notes Section -->
+        <div class="notes-section">
+            <h2>Notes</h2>
+            <div id="notes-container">
+                <!-- Notes will be dynamically added here -->
+            </div>
+
+            <!-- Add Note Form -->
+            <form id="add-note-form">
+                <textarea name="note_content" rows="3" placeholder="Add a note..." required></textarea>
+                <button type="submit" class="btn">Add Note</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="view_contact.js"></script>
+</body>
+</html>

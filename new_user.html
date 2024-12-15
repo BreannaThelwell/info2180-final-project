@@ -3,92 +3,57 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create New Users Contact - Dolphin CRM</title>
+    <title>Create New User</title>
     <link rel="stylesheet" href="new_user.css">
+    <script src="new_user.js" defer></script>
 </head>
 <body>
+    <!-- Sidebar -->
     <div class="sidebar">
+        <h2>Dolphin CRM</h2>
         <a href="dashboard.html">Home</a>
-        <a href="new_contact.html">New Contact</a>
+        <a href="add_contact.html">New Contact</a>
         <a href="user_list.html">Users</a>
         <a href="logout.php">Logout</a>
     </div>
-    <div class="main-content">
-        <h2>Add New Contact</h2>
-        <form action="add_contact.php" method="post">
-            <label for="title">Title:</label>
-            <select id="title" name="title" required>
-                <option value=" "> </option>
-                <option value="Mister">Mr</option>
-                <option value="Miss">Miss</option>
-                <option value="Miz">Ms</option>
-                <option value="Mistress">Mrs</option>
-                </select>
-    
-            <label for="firstname">First Name:</label>
-            <input type="text" id="firstname" name="firstname" required>
-    
-            <label for="lastname">Last Name:</label>
-            <input type="text" id="lastname" name="lastname" required>
-    
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" required>
-    
-            <label for="telephone">Telephone:</label>
-            <input type="text" id="telephone" name="telephone">
-    
-            <label for="company">Company:</label>
-            <input type="text" id="company" name="company">
-    
-            <label for="type">Type:</label>
-            <select id="type" name="type" required>
-                <option value=" "> </option>
-                <option value="sales">Sales</option>
-                <option value="support">Support</option>
-            </select>
-    
-            <label for="assigned_to">Assigned To:</label>
-            <select id="assigned_to" name="assigned_to">
-                <option value=" "> </option>
-                <option vale="Admin">Admin</option>
-                <option value="Member">Member</option>
-            </select>
-    
-            <button type="submit">Add Contact</button>
-        </form>
-    </div>
-    
 
-    <script>
-        function filterContacts(filter) {
-            fetch(`contacts.php?filter=${filter}`)
-                .then(response => response.json())
-                .then(data => {
-                    const contactsList = document.getElementById('contacts-list');
-                    contactsList.innerHTML = ''; // Clear existing rows
-    
-                    data.forEach(contact => {
-                        const row = `
-                            <tr>
-                                <td>${contact.title}</td>
-                                <td>${contact.firstname}</td>
-                                <td>${contact.lastname}</td>
-                                <td>${contact.email}</td>
-                                <td>${contact.company}</td>
-                                <td>${contact.type}</td>
-                                <td>${contact.assigned_firstname || ''} ${contact.assigned_lastname || ''}</td>
-                                <td>${contact.created_at}</td>
-                            </tr>
-                        `;
-                        contactsList.innerHTML += row;
-                    });
-                })
-                .catch(error => console.error('Error fetching contacts:', error));
-        }
-    
-        // Load all contacts initially
-        filterContacts('all');
-    </script>
-    
+    <!-- Main content -->
+    <div class="main-content">
+        <h2>New User</h2>
+        <form id="newUserForm">
+            <div class="row">
+                <div class="form-group">
+                    <label for="firstname">First Name</label>
+                    <input type="text" id="firstname" name="firstname" required>
+                </div>
+                <div class="form-group">
+                    <label for="lastname">Last Name</label>
+                    <input type="text" id="lastname" name="lastname" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+
+            <div class="form-group">
+                <label for="role">Role</label>
+                <select id="role" name="role" required>
+                    <option value="Member">Member</option>
+                    <option value="Admin">Admin</option>
+                </select>
+            </div>
+
+            <button type="submit" class="btn">Save</button>
+        </form>
+
+        <p id="feedback" style="display:none;"></p>
+    </div>
 </body>
 </html>

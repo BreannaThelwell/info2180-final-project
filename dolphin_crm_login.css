@@ -37,7 +37,7 @@ input {
 }
 
 button {
-    background-color: #273d09;
+    background-color: #2C3E50;
     color: white;
     border: none;
     padding: 10px;
@@ -54,6 +54,6 @@ footer {
     margin-top: auto;
     text-align: center;
     padding: 10px;
-    background-color: #2e584d; /* Light gray */
+    background-color: #2C3E50; /* Light gray */
     border-top: 1px solid #ccc;
 }
