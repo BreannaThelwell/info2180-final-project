@@ -28,10 +28,10 @@ CREATE TABLE Users (
 LOCK TABLES users WRITE;
 INSERT INTO users(firstname, lastname, password, email, role) VALUES
     ('Breanna', 'Thelwell', password_hash('password123', PASSWORD_DEFAULT), 'admin@project2.com', 'admin'),
-    ('Sheri-lee', 'Mills', password_hash('password123', PASSWORD_DEFAULT), 'admin@project2.com', 'admin1'),
-    ('Antawn', 'Edwards', password_hash('password123', PASSWORD_DEFAULT), 'admin@project2.com', 'admin3'),
-    ('Makonnen','Solomon', password_hash('password123', PASSWORD_DEFAULT), 'admin@project2.com', 'admin4'),
-    ('Gabe', 'Riley', password_hash('password123', PASSWORD_DEFAULT), 'admin@project2.com', 'admin5');
+    ('Sheri-lee', 'Mills', password_hash('password124', PASSWORD_DEFAULT), 'admin@project2.com', 'admin1'),
+    ('Antawn', 'Edwards', password_hash('password125', PASSWORD_DEFAULT), 'admin@project2.com', 'admin3'),
+    ('Makonnen','Solomon', password_hash('password126', PASSWORD_DEFAULT), 'admin@project2.com', 'admin4'),
+    ('Gabe', 'Riley', password_hash('password127', PASSWORD_DEFAULT), 'admin@project2.com', 'admin5');
 UNLOCK TABLES;
 
 --CONTACT INFORMATION
