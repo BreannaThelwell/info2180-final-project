@@ -1,16 +1,29 @@
 document.addEventListener('DOMContentLoaded', function () {
     const notesContainer = document.getElementById('notes-container');
     const addNoteForm = document.getElementById('add-note-form');
+    const contactId = getContactId(); 
+
 
     // Load existing notes (example code for fetching from server)
-    fetch('view_contact.php?getNotes=true')
-        .then(response => response.json())
-        .then(data => {
-            if (Array.isArray(data)) {
-                data.forEach(note => addNoteToUI(note));
-            }
-        })
-        .catch(error => console.error('Error loading notes:', error));
+    function loadNotes() {
+         fetch(`view_contact.php?id=${contactId}&getNotes=true`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.success && Array.isArray(data.notes)) {
+                    notesContainer.innerHTML = ''; // Clear existing notes
+                    data.notes.forEach(note => addNoteToUI(note));
+                } else {
+                    notesContainer.innerHTML = '<p>No notes found for this contact.</p>';
+                }
+            })
+            .catch(error => {
+                console.error('Error loading notes:', error);
+                notesContainer.innerHTML = '<p>Error loading notes. Please try again later.</p>';
+            });
+    }//added feedback message for display
+
+    // Fetch and load notes on page load
+    loadNotes();
 
     // Add note form submission
     addNoteForm.addEventListener('submit', function (e) {
@@ -21,12 +34,16 @@ document.addEventListener('DOMContentLoaded', function () {
             alert('Note cannot be empty');
             return;
         }
+        
+        // Disable the submit button during the request
+        const submitButton = addNoteForm.querySelector('button[type="submit"]');
+        submitButton.disabled = true;
 
         // Add the note to the server (example POST request)
         fetch('view_contact.php', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ action: 'addNote', content: noteContent }),
+            body: JSON.stringify({ action: 'addNote', content: noteContent, contactId: contactId }),
         })
             .then(response => response.json())
             .then(data => {
@@ -34,8 +51,8 @@ document.addEventListener('DOMContentLoaded', function () {
                     // Add the note to the UI
                     addNoteToUI({
                         content: noteContent,
-                        firstname: 'You', // Replace with the user's name if available
-                        lastname: '',
+                       firstname: data.currentUser.firstname, // Dynamically use the user's name from server response
+                        lastname: data.currentUser.lastname,
                         created_at: new Date().toLocaleString(),
                     });
 
@@ -48,6 +65,9 @@ document.addEventListener('DOMContentLoaded', function () {
             .catch(error => {
                 console.error('Error adding note:', error);
                 alert('An error occurred. Please try again.');
+            })
+            .finally(() => {
+                submitButton.disabled = false; // Re-enable the submit button
             });
     });
 
@@ -61,6 +81,13 @@ document.addEventListener('DOMContentLoaded', function () {
             <p class="note-date">${note.created_at}</p>
         `;
         notesContainer.insertBefore(noteElement, notesContainer.firstChild);
+    }
+    
+ // Helper function to get the contactId 
+    function getContactId() {
+        //Extract contactId from URL query params
+        const params = new URLSearchParams(window.location.search);
+        return params.get('id');
     }
 });
 
