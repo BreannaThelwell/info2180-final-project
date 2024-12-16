@@ -1,56 +1,61 @@
 <?php
 require 'db_connection.php';
-
 header("Content-Type: application/json");
 
-// Validate required fields
-$requiredFields = ['title', 'firstname', 'lastname', 'email', 'type', 'assigned_to'];
-foreach ($requiredFields as $field) {
-    if (empty($_POST[$field])) {
-        echo json_encode(['success' => false, 'error' => "Missing required field: $field"]);
-        exit;
+// Fetch admin users for "Assign To" dropdown
+if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['action']) && $_GET['action'] === 'getAdmins') {
+    try {
+        $query = "SELECT id, firstname, lastname FROM users WHERE role = 'admin'";
+        $result = $conn->query($query);
+
+        $admins = [];
+        while ($row = $result->fetch_assoc()) {
+            $admins[] = $row;
+        }
+
+        echo json_encode(['success' => true, 'admins' => $admins]);
+    } catch (Exception $e) {
+        echo json_encode(['success' => false, 'error' => $e->getMessage()]);
     }
-}
-
-// Sanitize and assign input values
-$title = htmlspecialchars(trim($_POST['title']));
-$firstname = htmlspecialchars(trim($_POST['firstname']));
-$lastname = htmlspecialchars(trim($_POST['lastname']));
-$email = htmlspecialchars(trim($_POST['email']));
-$telephone = htmlspecialchars(trim($_POST['telephone'] ?? '')); // Optional field
-$company = htmlspecialchars(trim($_POST['company'] ?? '')); // Optional field
-$type = htmlspecialchars(trim($_POST['type']));
-$assigned_to = intval($_POST['assigned_to']);
-$created_by = 1; // Replace with the actual session user ID if implemented
-
-// Validate type
-if (!in_array($type, ['Support', 'Sale Leads'])) {
-    echo json_encode(['success' => false, 'error' => 'Invalid contact type.']);
     exit;
 }
 
-// Validate the assigned user exists
-$checkUserQuery = "SELECT id FROM Users WHERE id = ?";
-$checkUserStmt = $conn->prepare($checkUserQuery);
-$checkUserStmt->bind_param("i", $assigned_to);
-$checkUserStmt->execute();
-if ($checkUserStmt->get_result()->num_rows === 0) {
-    // Assign to a default user if the provided user does not exist
-    $assigned_to = 1; // Replace 1 with the ID of a valid default user
+// Add a new contact
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $title = $_POST['title'] ?? '';
+    $firstname = $_POST['firstname'] ?? '';
+    $lastname = $_POST['lastname'] ?? '';
+    $email = $_POST['email'] ?? '';
+    $telephone = $_POST['telephone'] ?? '';
+    $company = $_POST['company'] ?? '';
+    $type = $_POST['type'] ?? 'Support';
+    $assigned_to = intval($_POST['assigned_to'] ?? 0);
+
+    if (empty($firstname) || empty($lastname) || empty($email) || empty($company) || !$assigned_to) {
+        echo json_encode(['success' => false, 'error' => 'All fields are required.']);
+        exit;
+    }
+
+    try {
+        // Validate assigned user
+        $stmt = $conn->prepare("SELECT id FROM users WHERE id = ? AND role = 'admin'");
+        $stmt->bind_param("i", $assigned_to);
+        $stmt->execute();
+        if ($stmt->get_result()->num_rows === 0) {
+            echo json_encode(['success' => false, 'error' => 'Assigned user must be an admin.']);
+            exit;
+        }
+
+        // Insert contact
+        $query = "INSERT INTO contacts (title, firstname, lastname, email, telephone, company, type, assigned_to, created_at)
+                  VALUES (?, ?, ?, ?, ?, ?, ?, ?, NOW())";
+        $stmt = $conn->prepare($query);
+        $stmt->bind_param("sssssssi", $title, $firstname, $lastname, $email, $telephone, $company, $type, $assigned_to);
+        $stmt->execute();
+
+        echo json_encode(['success' => true, 'message' => 'Contact added successfully.']);
+    } catch (Exception $e) {
+        echo json_encode(['success' => false, 'error' => $e->getMessage()]);
+    }
 }
-
-// Insert the contact into the database
-$query = "INSERT INTO Contacts (title, firstname, lastname, email, telephone, company, type, assigned_to, created_by, created_at) 
-          VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())";
-$stmt = $conn->prepare($query);
-$stmt->bind_param("sssssssii", $title, $firstname, $lastname, $email, $telephone, $company, $type, $assigned_to, $created_by);
-
-if ($stmt->execute()) {
-    echo json_encode(['success' => true, 'message' => 'Contact added successfully.']);
-} else {
-    echo json_encode(['success' => false, 'error' => 'Failed to add contact.', 'details' => $stmt->error]);
-}
-
-$stmt->close();
-$conn->close();
 ?>

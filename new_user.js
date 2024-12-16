@@ -1,11 +1,11 @@
-document.addEventListener("DOMContentLoaded", () => {
-    const form = document.getElementById("newUserForm");
+document.addEventListener("DOMContentLoaded", function () {
+    const newUserForm = document.getElementById("newUserForm");
     const feedback = document.getElementById("feedback");
 
-    form.addEventListener("submit", (e) => {
+    newUserForm.addEventListener("submit", function (e) {
         e.preventDefault();
 
-        const formData = new FormData(form);
+        const formData = new FormData(newUserForm);
 
         fetch("new_user.php", {
             method: "POST",
@@ -13,20 +13,22 @@ document.addEventListener("DOMContentLoaded", () => {
         })
             .then((response) => response.json())
             .then((data) => {
-                feedback.style.display = "block";
-
                 if (data.success) {
-                    feedback.textContent = "User created successfully!";
+                    feedback.textContent = data.message;
                     feedback.style.color = "green";
+                    feedback.style.display = "block";
+                    newUserForm.reset();
                 } else {
-                    feedback.textContent = data.error || "An error occurred.";
+                    feedback.textContent = `Error: ${data.error}`;
                     feedback.style.color = "red";
+                    feedback.style.display = "block";
                 }
             })
-            .catch(() => {
-                feedback.style.display = "block";
-                feedback.textContent = "Failed to create user. Please try again.";
+            .catch((error) => {
+                console.error("Error:", error);
+                feedback.textContent = "An unexpected error occurred.";
                 feedback.style.color = "red";
+                feedback.style.display = "block";
             });
     });
 });

@@ -1,53 +1,59 @@
 document.addEventListener("DOMContentLoaded", function () {
-    const addContactForm = document.getElementById("add-contact-form");
-    const assignedToDropdown = document.getElementById("assigned_to");
+    const form = document.getElementById("add-contact-form");
+    const assignedToSelect = document.getElementById("assigned_to");
     const responseMessage = document.getElementById("response-message");
 
-    // Load available users for "Assigned To" dropdown
-    fetch("get_users.php")
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                assignedToDropdown.innerHTML = data.users
-                    .map(user => `<option value="${user.id}">${user.firstname} ${user.lastname}</option>`)
-                    .join("");
-            } else {
-                responseMessage.textContent = "Failed to load users.";
-                responseMessage.style.color = "red";
-            }
-        })
-        .catch(error => {
-            console.error("Error loading users:", error);
-            responseMessage.textContent = "An error occurred while loading users.";
-            responseMessage.style.color = "red";
-        });
+    // Load only admin users into the "Assign To" dropdown
+    function loadAdmins() {
+        fetch("add_contact.php?action=getAdmins")
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    assignedToSelect.innerHTML = '<option value="">Select Admin</option>'; // Clear and set placeholder
+                    data.admins.forEach(admin => {
+                        const option = document.createElement("option");
+                        option.value = admin.id;
+                        option.textContent = `${admin.firstname} ${admin.lastname}`;
+                        assignedToSelect.appendChild(option);
+                    });
+                } else {
+                    assignedToSelect.innerHTML = `<option value="">Error loading admins</option>`;
+                    console.error("Error fetching admins:", data.error);
+                }
+            })
+            .catch(error => {
+                assignedToSelect.innerHTML = `<option value="">Error loading admins</option>`;
+                console.error("Error:", error);
+            });
+    }
 
     // Handle form submission
-    addContactForm.addEventListener("submit", function (e) {
+    form.addEventListener("submit", function (e) {
         e.preventDefault();
+        const formData = new FormData(form);
 
-        const formData = new FormData(addContactForm);
-
-        // Send contact data to the server
         fetch("add_contact.php", {
             method: "POST",
-            body: formData,
+            body: formData
         })
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
                     responseMessage.textContent = "Contact added successfully!";
                     responseMessage.style.color = "green";
-                    addContactForm.reset();
+                    form.reset();
                 } else {
-                    responseMessage.textContent = data.error || "Failed to add contact.";
+                    responseMessage.textContent = `Error: ${data.error}`;
                     responseMessage.style.color = "red";
                 }
             })
             .catch(error => {
-                console.error("Error adding contact:", error);
-                responseMessage.textContent = "An error occurred while adding the contact.";
+                responseMessage.textContent = "An unexpected error occurred.";
                 responseMessage.style.color = "red";
+                console.error("Error submitting form:", error);
             });
     });
+
+    // Load admins on page load
+    loadAdmins();
 });

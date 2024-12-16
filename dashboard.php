@@ -1,38 +1,43 @@
 <?php
-// Include database connection
-include 'db_connection.php';
+session_start();
+require 'db_connection.php';
 
-// Set header for JSON output
-header("Content-Type: application/json");
+header('Content-Type: application/json');
 
 // Get the filter parameter from the query string
 $filter = isset($_GET['filter']) ? $_GET['filter'] : 'all';
 
 // Base query
-$query = "SELECT id, title, firstname, lastname, email, company, type FROM contacts";
-$params = [];
+$query = "SELECT c.id, c.firstname, c.lastname, c.email, c.company, c.type, c.assigned_to, 
+                 u.firstname AS assigned_to_name 
+          FROM contacts c
+          LEFT JOIN users u ON c.assigned_to = u.id";
 $whereClause = "";
+$params = [];
 
-// Add conditions based on the filter
+// Singular filter logic
 if ($filter === 'sales_leads') {
-    $whereClause = " WHERE type = ?";
+    $whereClause = " WHERE c.type = ?";
     $params[] = "Sales Lead";
 } elseif ($filter === 'support') {
-    $whereClause = " WHERE type = ?";
+    $whereClause = " WHERE c.type = ?";
     $params[] = "Support";
-} elseif ($filter === 'assigned_to_me') {
-    // Example user ID for demonstration purposes
-    $whereClause = " WHERE assigned_to = ?";
-    $params[] = 1; // Replace with the actual user ID
+} elseif ($filter === 'assigned') {
+    if (!isset($_SESSION['user_id'])) {
+        echo json_encode(['success' => false, 'error' => 'Unauthorized access']);
+        exit;
+    }
+    $whereClause = " WHERE c.assigned_to = ?";
+    $params[] = $_SESSION['user_id'];
 }
 
-// Append the WHERE clause to the query
+// Combine query with WHERE clause for filtering
 $query .= $whereClause;
 
 try {
     $stmt = $conn->prepare($query);
 
-    // Bind parameters if there are any
+    // Bind parameters if any
     if (!empty($params)) {
         $stmt->bind_param(str_repeat("s", count($params)), ...$params);
     }
@@ -41,19 +46,14 @@ try {
     $result = $stmt->get_result();
 
     $contacts = [];
-
-    // Loop through results
     while ($row = $result->fetch_assoc()) {
         $contacts[] = $row;
     }
 
-    // Output contacts as JSON
-    echo json_encode($contacts);
-
+    echo json_encode(['success' => true, 'contacts' => $contacts]);
 } catch (Exception $e) {
-    http_response_code(500);
-    echo json_encode(["error" => "Failed to fetch contacts."]);
+    echo json_encode(['success' => false, 'error' => 'Failed to fetch contacts.']);
+    exit();
 }
-
 $conn->close();
 ?>

@@ -1,29 +1,29 @@
 <?php
-// Include database connection
-include 'db_connection.php';
+session_start();
+require 'db_connection.php';
 
-// Set header for JSON output
-header("Content-Type: application/json");
+header('Content-Type: application/json');
 
-// Query to fetch users
-$query = "SELECT title, firstname, lastname, email, role, created_at FROM users";
+// Check if the user is logged in
+if (!isset($_SESSION['user_id'])) {
+    echo json_encode(['success' => false, 'error' => 'Unauthorized access']);
+    exit();
+}
 
 try {
+    // Fetch all users from the database
+    $query = "SELECT firstname, lastname, email, role, created_at FROM users ORDER BY created_at DESC";
     $result = $conn->query($query);
-    $users = [];
 
-    // Loop through results
+    $users = [];
     while ($row = $result->fetch_assoc()) {
         $users[] = $row;
     }
 
-    // Output users as JSON
-    echo json_encode($users);
-
+    echo json_encode(['success' => true, 'users' => $users]);
 } catch (Exception $e) {
-    http_response_code(500);
-    echo json_encode(["error" => "Failed to fetch users."]);
+    echo json_encode(['success' => false, 'error' => 'Failed to load user data']);
+    exit();
 }
-
 $conn->close();
 ?>
