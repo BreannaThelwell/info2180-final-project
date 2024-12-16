@@ -1,11 +1,12 @@
 <?php
-// Start session to access and destroy user data
+// Start the session
 session_start();
 
-// Destroy the session to log out the user
-session_destroy();
+// Destroy all session data
+session_unset(); // Unset all session variables
+session_destroy(); // Destroy the session itself
 
 // Redirect to the login page
-header("Location: login.php");
+header("Location: dolphin_crm_login.html");
 exit();
 ?>
