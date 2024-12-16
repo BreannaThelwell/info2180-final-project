@@ -30,7 +30,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // Function to render contacts in the table
     function renderContacts(contacts) {
         contactList.innerHTML = ""; // Clear existing rows
-        if (contacts.length === 0) {
+        if (data.length === 0) {
             contactList.innerHTML = `
                 <tr>
                     <td colspan="5" style="text-align: center; color: grey;">No contacts found</td>
@@ -39,7 +39,7 @@ document.addEventListener("DOMContentLoaded", function () {
             return;
         }
 
-        contacts.forEach(contact => {
+        data.forEach(contact => {
             const row = document.createElement("tr");
             row.innerHTML = `
                 <td>${contact.firstname} ${contact.lastname}</td>
@@ -50,6 +50,15 @@ document.addEventListener("DOMContentLoaded", function () {
             `;
             contactList.appendChild(row);
         });
+    }
+
+    // Render error message
+    function renderError(message) {
+        contactList.innerHTML = `
+            <tr>
+                <td colspan="5" style="text-align: center; color: red;">${message}</td>
+            </tr>
+        `;
     }
 
     // Add event listeners to filter links
